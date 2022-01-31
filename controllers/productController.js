@@ -11,7 +11,7 @@ const quantityValidator = require('../errors/quantityValidator');
   D - DELETE
 */
 
-    products.post('/', 
+products.post('/', 
     nameValidator,
     quantityValidator, 
     rescue(async (req, res) => {
@@ -25,8 +25,8 @@ const quantityValidator = require('../errors/quantityValidator');
         res.status(201).json(newProduct);
     }));
 
-products.get('/', rescue((req, res) => {
-    const productList = productService.getAll();
+products.get('/', rescue(async (req, res) => {
+    const productList = await productService.getAll();
 
     res.status(200).json(productList);
 }));
