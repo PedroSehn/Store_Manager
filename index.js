@@ -49,8 +49,8 @@ app.use((err, req, res, next) => {
   .json(err);
 });
 
-// middlewere erros gerais
 /*
+// middlewere erros gerais
 app.use((err, req, res, _next) => {
   console.error(err);
   res.status(500).json({ code: 'internal_server_error', message: 'error processing request' });

@@ -15,18 +15,7 @@ const getById = async (id) => {
     return product;
 };
 
-const getByName = async (name) => {
-    const product = await productModel.getByName(name);
-
-    if (!product) {
-        throw new Error({
-            code: 'not-found',
-            message: 'Product not found', 
-        });
-    }
-
-    return product;
-};
+const getByName = async (name) => productModel.getByName(name);
 
 const add = async ({ name, quantity }) => {
     const result = await productModel.add(name, quantity);

@@ -1,27 +1,29 @@
 const rescue = require('express-rescue');
 const products = require('express').Router();
-// const joi = require('joi');
-const productService = require('../services/productService');
 
+const productService = require('../services/productService');
+const { nameValidator } = require('../errors/nameValidator');
+const quantityValidator = require('../errors/quantityValidator');
 /* 
   C - POST
   R - GET
   U - PUT / PATCH
   D - DELETE
-  
-  const productValidator = joi.object({
-      name: joi.string().min(5).required(),
-      quantity: joi.number().min(1).required(),
-    });    
 */
 
-products.post('/', rescue(async (req, res) => {
-    const { name, quantity } = req.body;
-
-    const newProduct = await productService.add({ name, quantity });
-
-    res.status(201).json(newProduct);
-}));
+    products.post('/', 
+    nameValidator,
+    quantityValidator, 
+    rescue(async (req, res) => {
+        const { name, quantity } = req.body;
+        const findByName = await productService.getByName(name);
+        if (findByName) {
+            return res.status(409).json({ message: 'Product already exists' });
+        }
+        const newProduct = await productService.add({ name, quantity });
+    
+        res.status(201).json(newProduct);
+    }));
 
 products.get('/', rescue((req, res) => {
     const productList = productService.getAll();

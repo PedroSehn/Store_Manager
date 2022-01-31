@@ -1,51 +1,18 @@
-// import productServer from '../services/productService';
-
-/*
-const existsByName = async (name) => {
-    const product = await productServer.getByName(name);
-    
-    if (!product) {
-        return false;
-    }
-    throw new Error({
-        code: 'invalid-name',
-        message: 'Product already exists', 
-        status: 409,
-     });
-};
-*/
-
-const nameNotNull = (name) => {
-       if (!name) {
-           throw new Error({
-               code: 'invalid-name',
-               message: '"name" is required',
-               status: 400, 
-            });
-        }
+const nameValidatorMessages = {
+    notNull: '"name" is required',
+    atLeastFive: '"name" length must be at least 5 characters long',
+    productDontExists: 'Product does not exists',
 };
 
-const nameLenghtValidator = (name) => {
-    if (name.length < 5) {
-        throw new Error({
-            code: 'invalid-name',
-            message: '"name" length must be at least 5 characters long', 
-            status: 422,
-         });
-     }
-};
+const nameValidator = (req, res, next) => {
+    const { name } = req.body;
+    const { notNull, atLeastFive } = nameValidatorMessages;
+    if (!name) return res.status(400).json({ message: notNull });
+    if (name.length < 5) return res.status(422).json({ message: atLeastFive });
 
-const verify = (name) => {
-    nameNotNull(name);
-    nameLenghtValidator(name);
-    // existsByName(name); 
+    next();
 };
-
-verify('');
 
 module.exports = {
-    // existsByName,
-    nameNotNull,
-    nameLenghtValidator,
-    verify,
+    nameValidator,
 };
