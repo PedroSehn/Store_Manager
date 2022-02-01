@@ -4,6 +4,7 @@ const products = require('express').Router();
 const productService = require('../services/productService');
 const { nameValidator } = require('../errors/nameValidator');
 const quantityValidator = require('../errors/quantityValidator');
+
 /* 
   C - POST
   R - GET
@@ -53,5 +54,15 @@ rescue(async (req, res) => {
     const newProduct = await productService.updateById(name, quantity, id);
     
     res.status(200).json(newProduct);
+}));
+
+products.delete('/:id', rescue(async (req, res) => {
+    const { id } = req.params;
+    const product = await productService.getById(id);
+    if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+    }
+    productService.deleteById(id);
+   return res.status(200).json(product);
 }));
 module.exports = products;

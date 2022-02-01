@@ -22,10 +22,15 @@ const updateById = async (name, quantity, id) => {
     return result;
 };
 
+const deleteById = async (id) => {
+    productModel.deleteById(id);  
+};
+
 module.exports = {
     getAll,
     getById,
     add,
     getByName,
     updateById,
+    deleteById,
 };
