@@ -23,7 +23,7 @@ const updateById = async (name, quantity, id) => {
 };
 
 const deleteById = async (id) => {
-    productModel.deleteById(id);  
+   await productModel.deleteById(id);  
 };
 
 module.exports = {
