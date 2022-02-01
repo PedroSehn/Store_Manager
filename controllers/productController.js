@@ -31,4 +31,27 @@ products.get('/', rescue(async (req, res) => {
     res.status(200).json(productList);
 }));
 
+products.get('/:id', rescue(async (req, res) => {
+    const { id } = req.params;
+    const product = await productService.getById(id);
+    if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+    }
+    res.status(200).json(product);
+}));
+
+products.put('/:id',
+nameValidator,
+quantityValidator, 
+rescue(async (req, res) => {
+    const { id } = req.params;
+    const { name, quantity } = req.body;
+    const product = await productService.getById(id);
+    if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+    }
+    const newProduct = await productService.updateById(name, quantity, id);
+    
+    res.status(200).json(newProduct);
+}));
 module.exports = products;

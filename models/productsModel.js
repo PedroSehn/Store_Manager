@@ -1,7 +1,7 @@
 const connection = require('./connection');
 
 const getAll = async () => {
-    const [rows] = await connection.execute('SELECT * FROM products');
+    const [rows] = await connection.query('SELECT * FROM products');
     return rows;
 };
 
@@ -23,9 +23,19 @@ const getByName = async (name) => {
     return result[0];
 };
 
+const updateById = async (name, quantity, id) => {
+    await connection.query('UPDATE products SET name = ?, quantity = ? WHERE id = ?', 
+    [name, quantity, id]);
+
+    return {
+        id, name, quantity,
+    };
+};
+
 module.exports = {
     getAll,
     add,
     getById,
     getByName,
+    updateById,
 };
