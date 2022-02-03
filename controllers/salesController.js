@@ -30,8 +30,23 @@ sales.post('/',
 
 sales.get('/', rescue(async (req, res) => {
   const salesList = await salesService.getAll();
-  
-  return res.status(200).json(salesList);
+  const newSaleList = salesList.map((item) => {
+    const { sale_id: saleId, ...data } = item;
+    
+    const newObject = { saleId, ...data };
+    return newObject;
+  });
+
+  console.log(newSaleList);
+  res.status(200).json(newSaleList);
 }));
 
+sales.get('/:id', rescue(async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesService.getSaleById(id);
+  if (sale.length === 0) {
+    return res.status(404).json({ message: 'Sale not found' });
+  }
+  return res.status(200).json(sale);
+}));
 module.exports = sales;

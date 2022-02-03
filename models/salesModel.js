@@ -1,8 +1,26 @@
 const connection = require('./connection');
 
 const getAll = async () => {
-    const [rows] = await connection.query('SELECT * FROM sales');
+    const [rows] = await connection
+    .query(`SELECT sp.sale_id,
+      s.date,
+      sp.product_id,
+      sp.quantity FROM sales AS s
+      JOIN sales_products AS sp
+      ON s.id = sp.sale_id`);
+    
     return rows;
+};
+
+const getSaleById = async (id) => {
+    const [row] = await connection
+    .query(`SELECT s.date, sp.product_id, sp.quantity
+        FROM sales s 
+        JOIN sales_products sp 
+        ON s.id = sp.sale_id
+        WHERE s.id = ?`, [id]);
+
+    return row;
 };
 
 const add = async (sales) => {
@@ -27,4 +45,5 @@ const add = async (sales) => {
 module.exports = {
     getAll,
     add,
+    getSaleById,
 };
