@@ -2,8 +2,8 @@ const rescue = require('express-rescue');
 const products = require('express').Router();
 
 const productService = require('../services/productService');
-const { nameValidator } = require('../errors/nameValidator');
-const quantityValidator = require('../errors/quantityValidator');
+const { nameValidator } = require('../errors/ProductValidator/nameValidator');
+const quantityValidator = require('../errors/ProductValidator/quantityValidator');
 
 /* 
   C - POST
