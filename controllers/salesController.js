@@ -37,11 +37,11 @@ sales.get('/', rescue(async (req, res) => {
     return newObject;
   });
 
-  console.log(newSaleList);
   res.status(200).json(newSaleList);
 }));
 
-sales.get('/:id', rescue(async (req, res) => {
+sales.get('/:id', 
+  rescue(async (req, res) => {
   const { id } = req.params;
   const sale = await salesService.getSaleById(id);
   if (sale.length === 0) {
@@ -49,4 +49,17 @@ sales.get('/:id', rescue(async (req, res) => {
   }
   return res.status(200).json(sale);
 }));
+
+sales.put('/:id',
+  validateProductId,
+  quantityIsNum,
+  quantityBiggerThanOne,
+  rescue(async (req, res) => {
+  const { id } = req.params;
+  const array = req.body;
+  const result = await salesService.updateSale(id, array);
+
+  return res.status(200).json({ ...result });
+}));
+
 module.exports = sales;
