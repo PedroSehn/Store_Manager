@@ -29,7 +29,6 @@ const deleteById = async (id) => {
     const item = getSaleById(id);
 
     await salesModel.deleteById(id);
-   // console.log(deleteAction);
     return item;
 };
 

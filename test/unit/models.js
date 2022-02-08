@@ -458,3 +458,39 @@ describe('Testa função updateSale (models/salesModel)', () => {
   });
 });
 
+describe('Testa função deleteById (models/salesModel)', () => {
+  describe('Quando o item é deletado com sucesso', () => {
+    before(async () => {
+      const element =  [
+        { 
+          "date": "2021-09-09T04:54:29.000Z",
+          "product_id": 1,
+          "quantity": 2
+        }
+      ];
+
+      sinon.stub(connection, 'query').resolves([element]);
+      sinon.stub(connection, 'execute').resolves(1);
+    });
+    
+    after(() => {
+      connection.query.restore();
+      connection.execute.restore();
+    });
+
+    it('Deve retornar um array', async () => {
+      const result = await salesModel.deleteById(1);
+
+      expect(result).to.be.an('array');
+    });
+
+    it('Deve conter um objeto com date, product_id, quantity', async () => {
+      const result = await salesModel.deleteById(1);
+
+      expect(result[0]).to.have.property('date');
+      expect(result[0]).to.have.property('product_id');
+      expect(result[0]).to.have.property('quantity');
+    });
+  });
+});
+

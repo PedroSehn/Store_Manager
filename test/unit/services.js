@@ -282,3 +282,12 @@ describe('Testa função updateSale (services/salesService)', () => {
           });
     });
 });
+
+
+/*
+describe('Testa função deleteById (services/salesService)', () => {
+    describe('Quando deleta com sucesso', () => {
+        
+    });
+});
+*/
