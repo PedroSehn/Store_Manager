@@ -1,4 +1,5 @@
 const productService = require('../../services/productService');
+const salesService = require('../../services/salesService');
 
 const errorMessages = {
     idIsRequired: { message: '"product_id" is required' },
@@ -50,8 +51,18 @@ const quantityBiggerThanOne = (req, res, next) => {
     next();
 };
 
+const validateSaleId = async (req, res, next) => {
+    const { id } = req.params;
+    const sale = await salesService.getSaleById(id);
+
+    if (!sale[0]) return res.status(404).json({ message: 'Sale not found' });
+
+    next();
+};
+
 module.exports = { 
     validateProductId,
     quantityIsNum,
     quantityBiggerThanOne,
+    validateSaleId,
 };

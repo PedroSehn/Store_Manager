@@ -30,8 +30,11 @@ const add = async (sales) => {
    const salesMaping = sales.map(async (sale) => {
     const { product_id: productId, quantity } = sale;    
     await connection
-        .query('INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)', 
+        .execute('INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)', 
         [salesID, productId, quantity]);
+    
+    await connection.execute('UPDATE products SET quantity = quantity - ? WHERE id = ?',
+    [quantity, productId]);
     });
 
     await Promise.all(salesMaping);
@@ -49,9 +52,27 @@ const updateSale = async (saleId, productId, quantity) => {
     AND product_id = ?`, [quantity, saleId, productId]);
 };
 
+const deleteById = async (id) => {
+   const result = await getSaleById(id);
+    console.log(id);
+
+    await connection.execute('DELETE FROM sales_products WHERE sale_id = ?', [id]);
+
+    const mapping = result.map(async (item) => {
+        await connection.execute(
+            'UPDATE products SET quantity = quantity + ? WHERE id = ?',
+            [item.quantity, item.product_id],
+        );
+    });
+
+    await Promise.all(mapping);
+
+    return result;
+};
 module.exports = {
     getAll,
     add,
     getSaleById,
     updateSale,
+    deleteById,
 };

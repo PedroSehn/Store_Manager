@@ -62,4 +62,13 @@ sales.put('/:id',
   return res.status(200).json({ ...result });
 }));
 
+sales.delete('/:id', 
+ rescue(async (req, res) => {
+  const { id } = req.params;
+  const item = await salesService.getSaleById(id);
+  if (item.length === 0) return res.status(404).json({ message: 'Sale not found' });
+
+  await salesService.deleteById(id);
+  return res.status(200).json(item);
+}));
 module.exports = sales;
