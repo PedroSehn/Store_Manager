@@ -243,7 +243,7 @@ describe('Testa func validateSaleId' , () => {
 
 */
 
-
+/*
 describe("Verifica o Controller de Produto", () => {
     describe('testa', () => {
         const teste1 = { name: "teste", quantity: 1 };
@@ -261,3 +261,4 @@ describe("Verifica o Controller de Produto", () => {
         });
     });
 });
+*/
