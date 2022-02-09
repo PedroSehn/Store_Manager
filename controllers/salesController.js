@@ -7,7 +7,7 @@ const {
     validateProductId,
     quantityIsNum,
     quantityBiggerThanOne,
-} = require('../errors/SalesValidator/productSale');
+} = require('./SalesValidator/productSale');
 
 sales.post('/', 
   validateProductId,

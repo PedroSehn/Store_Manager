@@ -37,17 +37,16 @@ const quantityIsNum = (req, res, next) => {
     next();
 };
 
-const quantityBiggerThanOne = (req, res, next) => {
+const quantityBiggerThanOne = async (req, res, next) => {
     const sales = req.body;
   
-    sales.forEach((sale) => {
-      const row = productService.getById(sale.product_id);
-  
+    sales.forEach(async (sale) => {
+      const row = await productService.getById(sale.product_id);
       if (row.quantity < sale.quantity) {
         return res.status(422).json(errorMessages.amountNotPermitted); 
     }
 });
-  
+
     next();
 };
 

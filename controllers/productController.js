@@ -2,15 +2,8 @@ const rescue = require('express-rescue');
 const products = require('express').Router();
 
 const productService = require('../services/productService');
-const { nameValidator } = require('../errors/ProductValidator/nameValidator');
-const quantityValidator = require('../errors/ProductValidator/quantityValidator');
-
-/* 
-  C - POST
-  R - GET
-  U - PUT / PATCH
-  D - DELETE
-*/
+const { nameValidator } = require('./ProductValidator/nameValidator');
+const quantityValidator = require('./ProductValidator/quantityValidator');
 
 products.post('/', 
     nameValidator,
@@ -62,7 +55,8 @@ products.delete('/:id', rescue(async (req, res) => {
     if (!product) {
         return res.status(404).json({ message: 'Product not found' });
     }
-    productService.deleteById(id);
+    await productService.deleteById(id);
    return res.status(200).json(product);
 }));
+
 module.exports = products;

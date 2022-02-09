@@ -200,10 +200,10 @@ describe('Testa função getAll (services/salesService)', () => {
                 "quantity": 2
               }
             ];
-            sinon.stub(connection, 'query').resolves([salesElement]);
+            sinon.stub(salesModel, 'getAll').resolves([salesElement]);
           });
           after(() => {
-            connection.query.restore();
+            salesModel.getAll.restore();
           });
         
         it('Deve retornar um array', async () => {
@@ -233,10 +233,10 @@ describe('Testa função getSaleById (services/salesService)', () => {
               }
             ];
       
-            sinon.stub(connection, 'query').resolves([element]);
+            sinon.stub(salesModel, 'getSaleById').resolves(element);
           });
           after(() => {
-            connection.query.restore();
+            salesModel.getSaleById.restore();
           });
         
           it('Deve retornar um array', async () => {
@@ -262,15 +262,17 @@ describe('Testa função updateSale (services/salesService)', () => {
     
         before(async () => {
           const execute = [];
-    
-          sinon.stub(connection, 'execute').resolves(execute);
+          
+          sinon.stub(salesModel, 'updateSale').resolves(execute);
+         
         });
     
         after(() => {
-          connection.execute.restore();
+            salesModel.updateSale.restore();
         });
     
         it('Deve retornar um objeto', async () => {
+           
           const result = await salesService.updateSale(1, itemSale);
           expect(result).to.be.an('object');
         });
@@ -283,11 +285,37 @@ describe('Testa função updateSale (services/salesService)', () => {
     });
 });
 
-
-/*
 describe('Testa função deleteById (services/salesService)', () => {
-    describe('Quando deleta com sucesso', () => {
+    describe('Quando encontra o sale', () => {
+        before(async () => {
+            
+            const element =  
+            [
+              { 
+                "date": "2021-09-09T04:54:29.000Z",
+                "product_id": 1,
+                "quantity": 2
+              }
+            ];
+      
+            sinon.stub(salesModel, 'deleteById').resolves(element);    
+            sinon.stub(salesModel, 'getSaleById').resolves(element);
+        });
+
+        after(() => {
+            salesModel.deleteById.restore();
+            salesModel.getSaleById.restore();
+        });
         
+          it('Deve retornar um array', async () => {
+            const result = await salesService.deleteById(1);
+            expect(result).to.be.an('array');
+          });
+
+          it('Deve conter um objeto', async () => {
+            const result = await salesService.deleteById(1);
+            
+            expect(result[0]).to.be.an('object');
+          });
     });
 });
-*/

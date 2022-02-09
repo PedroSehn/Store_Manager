@@ -13,7 +13,6 @@ const add = async (name, quantity) => {
 
 const getById = async (id) => {
     const [result] = await connection.execute('SELECT * FROM products WHERE id = ?', [id]);
-    // if (!result.length) return null;
     return result[0];
 };
 

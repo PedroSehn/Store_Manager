@@ -54,7 +54,6 @@ const updateSale = async (saleId, productId, quantity) => {
 
 const deleteById = async (id) => {
    const result = await getSaleById(id);
-    console.log(id);
 
     await connection.execute('DELETE FROM sales_products WHERE sale_id = ?', [id]);
 
