@@ -187,7 +187,7 @@ describe('Testa func quantityBiggerThanOne' , () => {
     const req = {};
     const next = () => {};
     
-    describe('', () => {
+    describe('Retorna 422', () => {
         before(() => {
             req.body = [{ quantity: 100 }];
             sinon.stub(productService, 'getById').resolves([{ product_id: 20, quantity: 10 }]);
@@ -196,9 +196,9 @@ describe('Testa func quantityBiggerThanOne' , () => {
             sinon.restore();
         });
 
-        it('Deve retornar undefined', async () => {
+        it('Deve retornar 422', async () => {
             await quantityBiggerThanOne(req, res, next);
-            expect(res.status).to.be.undefined;
+            expect(res.status.calledWith(422)).to.be.true;
         });
     })
 });
@@ -226,6 +226,7 @@ describe('Testa func validateSaleId' , () => {
     })
 });
 */
+
 /*
     describe('Testa func nameValidator (/services/productService)' , () => {
     
