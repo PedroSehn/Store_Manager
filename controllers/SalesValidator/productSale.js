@@ -1,4 +1,3 @@
-const productService = require('../../services/productService');
 const salesService = require('../../services/salesService');
 
 const errorMessages = {
@@ -37,22 +36,6 @@ const quantityIsNum = (req, res, next) => {
     next();
 };
 
-const quantityBiggerThanOne = async (req, res, next) => {
-    const sales = req.body;
-    
-    const salesMaping = sales.map(async (sale) => {
-      const row = await productService.getById(sale.product_id);
-      
-      if (row.quantity < sale.quantity) {
-        return res.status(422).json(errorMessages.amountNotPermitted); 
-    }
-    });
-
-   await Promise.all(salesMaping);
-
-    next();
-};
-
 const validateSaleId = async (req, res, next) => {
     const { id } = req.params;
     const sale = await salesService.getSaleById(id);
@@ -65,6 +48,5 @@ const validateSaleId = async (req, res, next) => {
 module.exports = { 
     validateProductId,
     quantityIsNum,
-    quantityBiggerThanOne,
     validateSaleId,
 };

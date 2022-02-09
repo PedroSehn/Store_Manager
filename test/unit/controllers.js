@@ -181,6 +181,8 @@ describe('Testa func quantityIsNum' , () => {
     })
 });
 
+
+/*
 describe('Testa func quantityBiggerThanOne' , () => {
     
     const res = {};
@@ -202,7 +204,7 @@ describe('Testa func quantityBiggerThanOne' , () => {
         });
     })
 });
-
+*/
 /*
 describe('Testa func validateSaleId' , () => {
     

@@ -6,13 +6,11 @@ const productService = require('../services/productService');
 const { 
     validateProductId,
     quantityIsNum,
-    quantityBiggerThanOne,
 } = require('./SalesValidator/productSale');
 
 sales.post('/', 
   validateProductId,
   quantityIsNum,
-  quantityBiggerThanOne,
   rescue(async (req, res) => {
     const salesList = req.body;
    
@@ -53,7 +51,6 @@ sales.get('/:id',
 sales.put('/:id',
   validateProductId,
   quantityIsNum,
-  quantityBiggerThanOne,
   rescue(async (req, res) => {
   const { id } = req.params;
   const array = req.body;
